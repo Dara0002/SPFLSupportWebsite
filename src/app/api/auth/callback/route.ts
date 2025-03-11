@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
     const token = jwt.sign({ id: userResponse.data.id, isStaff }, process.env.JWT_SECRET!, { expiresIn: '1h' });
 
     // Redirect user based on their role
-    const response = NextResponse.redirect(isStaff ? '/transcripts' : '/');
+    const response = NextResponse.redirect(isStaff ? 'https://spfl.vercel.app/transcripts' : 'https://spfl.vercel.app/');
     response.cookies.set('token', token, {
       httpOnly: true,
       path: '/',
