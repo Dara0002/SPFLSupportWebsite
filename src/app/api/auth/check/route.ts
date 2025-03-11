@@ -2,14 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 
 export async function GET(req: NextRequest) {
-  const token = req.cookies.get('token');  // Use .get() for cookies in NextRequest
+  const token = req.cookies.get('token')?.value;
 
   if (!token) {
     return NextResponse.json({ error: 'Token not found' }, { status: 401 });
   }
 
   try {
-    // Ensure JWT_SECRET exists
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
       console.error('JWT_SECRET is missing in the environment variables.');
