@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 type Message = {
   author: string;
@@ -23,12 +24,12 @@ type Ticket = {
 
 export default function Transcripts() {
   const { id } = useParams<{ id: string }>();
-  const [ticket, setTicket] = useState<Ticket | null>(null); // ✅ Explicitly define type
+  const [ticket, setTicket] = useState<Ticket | null>(null);
 
   useEffect(() => {
     async function fetchTicket() {
       const response = await fetch(`/api/tickets/${id}`);
-      const data: Ticket = await response.json(); // ✅ Type API response
+      const data: Ticket = await response.json();
       setTicket(data);
     }
 
@@ -40,7 +41,7 @@ export default function Transcripts() {
   if (!ticket) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <div className="text-xl font-semibold text-gray-600 animate-pulse">Loading...</div>
+        <div className="text-3xl font-semibold text-gray-600 animate-pulse">Loading...</div>
       </div>
     );
   }
@@ -51,6 +52,13 @@ export default function Transcripts() {
       <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-6 rounded-t-lg shadow-lg">
         <h1 className="text-3xl font-bold text-center">🎟️ Ticket Transcript</h1>
         <p className="text-center text-lg mt-2">Review ticket details & messages</p>
+      </div>
+
+      {/* Back Button */}
+      <div className="mt-4 text-center">
+        <Link href="/transcripts" className="inline-block px-6 py-2 text-sm font-medium leading-6 text-center text-white bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full shadow ripple hover:shadow-lg hover:bg-indigo-800 focus:outline-none">
+            Back to All Tickets
+        </Link>
       </div>
 
       {/* Ticket Details */}

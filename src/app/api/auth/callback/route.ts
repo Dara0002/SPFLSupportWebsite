@@ -1,0 +1,59 @@
+import { NextRequest, NextResponse } from 'next/server';
+import axios from 'axios';
+import jwt from 'jsonwebtoken';
+
+export async function GET(req: NextRequest) {
+  const code = req.nextUrl.searchParams.get('code'); // Get code from query parameters
+  
+  if (!code) {
+    return NextResponse.json({ error: 'No code provided' }, { status: 400 });
+  }
+
+  try {
+    // Exchange code for access token
+    const tokenResponse = await axios.post('https://discord.com/api/oauth2/token', new URLSearchParams({
+      client_id: process.env.DISCORD_CLIENT_ID!,
+      client_secret: process.env.DISCORD_CLIENT_SECRET!,
+      grant_type: 'authorization_code',
+      code,
+      redirect_uri: process.env.DISCORD_REDIRECT_URI!,
+    }), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+
+    const { access_token } = tokenResponse.data;
+
+    // Get user information
+    const userResponse = await axios.get('https://discord.com/api/users/@me', {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+
+    // Get user's roles from the guild
+    const guildMemberResponse = await axios.get(`https://discord.com/api/guilds/${process.env.DISCORD_GUILD_ID}/members/${userResponse.data.id}`, {
+      headers: {
+        Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+      },
+    });
+
+    const userRoles = guildMemberResponse.data.roles;
+    const isStaff = userRoles.includes(process.env.STAFF_ROLE_ID!);
+
+    // Create a JWT token and set it as a cookie
+    const token = jwt.sign({ id: userResponse.data.id, isStaff }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+
+    // Redirect user based on their role
+    return NextResponse.redirect(isStaff ? '/transcripts' : '/').cookie('token', token, {
+      httpOnly: true,
+      path: '/',
+      maxAge: 3600, // 1 hour
+    });
+
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
