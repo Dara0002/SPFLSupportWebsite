@@ -1,5 +1,23 @@
 'use client';
 
+type Message = {
+  author: string;
+  content: string;
+};
+
+type Ticket = {
+  ticketId: string;
+  userId: string;
+  modId: string;
+  channelId: string;
+  status: string;
+  createdAt: string;
+  closedAt?: string;
+  closedBy?: string;
+  lastMessage: string;
+  messages: Message[];
+};
+
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
