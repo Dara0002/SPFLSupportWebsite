@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import mongoose from 'mongoose';
 import Ticket from '@/schemas/Ticket'; // Ensure this import path is correct
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET({ params }: { params: { id: string } }) {
   const { id } = await params;
 
   if (!id) {
