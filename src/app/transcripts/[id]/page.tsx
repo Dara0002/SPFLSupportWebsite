@@ -3,31 +3,32 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+type Message = {
+  author: string;
+  content: string;
+};
+
+type Ticket = {
+  ticketId: string;
+  userId: string;
+  modId: string;
+  channelId: string;
+  status: string;
+  createdAt: string;
+  closedAt?: string;
+  closedBy?: string;
+  lastMessage: string;
+  messages: Message[];
+};
+
 export default function Transcripts() {
-  type Message = {
-    author: string;
-    content: string;
-  };
-  
-  type ticket = {
-    ticketId: string;
-    userId: string;
-    modId: string;
-    channelId: string;
-    status: string;
-    createdAt: string;
-    closedAt?: string;
-    closedBy?: string;
-    lastMessage: string;
-    messages: Message[];
-  };
   const { id } = useParams<{ id: string }>();
-  const [ticket, setTicket] = useState(null);
+  const [ticket, setTicket] = useState<Ticket | null>(null); // ✅ Explicitly define type
 
   useEffect(() => {
     async function fetchTicket() {
       const response = await fetch(`/api/tickets/${id}`);
-      const data = await response.json();
+      const data: Ticket = await response.json(); // ✅ Type API response
       setTicket(data);
     }
 
