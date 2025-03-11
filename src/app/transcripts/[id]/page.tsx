@@ -5,7 +5,7 @@ type Message = {
   content: string;
 };
 
-type Ticket = {
+type ticket = {
   ticketId: string;
   userId: string;
   modId: string;
