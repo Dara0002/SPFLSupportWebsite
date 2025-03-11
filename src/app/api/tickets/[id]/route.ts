@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import mongoose from 'mongoose';
 import Ticket from '@/schemas/Ticket'; // Ensure this import path is correct
-import { use } from 'react'
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = use(params); // Extracts the ticket ID from the URL
+export async function GET(req: NextRequest, res: NextResponse, { params }: { params: { id: string } }) {
+  const { id } = await params; // Extracts the ticket ID from the URL
 
   if (!id) {
     return NextResponse.json({ message: 'Ticket ID is required' }, { status: 400 });
