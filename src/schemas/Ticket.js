@@ -41,4 +41,4 @@ const ticketSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.models.Ticket || mongoose.model('Ticket', ticketSchema, 'Tickets');
+export default mongoose.models.Ticket || mongoose.model('Ticket', ticketSchema, 'Tickets');
