@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import Ticket from '@/schemas/Ticket'; // Ensure this import path is correct
 
 export async function GET(req: NextRequest, res: NextResponse, { params }: { params: { id: string } }) {
-  const { id } = await params; // Extracts the ticket ID from the URL
+  const { id } = await params;
 
   if (!id) {
     return NextResponse.json({ message: 'Ticket ID is required' }, { status: 400 });
