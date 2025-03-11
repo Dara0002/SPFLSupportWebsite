@@ -1,27 +1,26 @@
 'use client';
 
-type Message = {
-  author: string;
-  content: string;
-};
-
-type ticket = {
-  ticketId: string;
-  userId: string;
-  modId: string;
-  channelId: string;
-  status: string;
-  createdAt: string;
-  closedAt?: string;
-  closedBy?: string;
-  lastMessage: string;
-  messages: Message[];
-};
-
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function Transcripts() {
+  type Message = {
+    author: string;
+    content: string;
+  };
+  
+  type ticket = {
+    ticketId: string;
+    userId: string;
+    modId: string;
+    channelId: string;
+    status: string;
+    createdAt: string;
+    closedAt?: string;
+    closedBy?: string;
+    lastMessage: string;
+    messages: Message[];
+  };
   const { id } = useParams<{ id: string }>();
   const [ticket, setTicket] = useState(null);
 
