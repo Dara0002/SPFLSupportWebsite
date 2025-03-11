@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import mongoose from 'mongoose';
 import Ticket from '@/schemas/Ticket'; // Ensure this import path is correct
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const mongoUri = process.env.MONGODB_URI;
     if (!mongoUri) {

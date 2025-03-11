@@ -11,13 +11,12 @@ export default function Home() {
   useEffect(() => {
     async function checkAuthorization() {
       try {
-        const response = await axios.get('/api/auth/check');
+        const response = await axios.get('/api/auth/check', { withCredentials: true });
         const { token } = response.data;
 
         if (token) {
           const decoded = jwt.decode(token) as { isStaff: boolean };
-
-          if (decoded.isStaff) {
+          if (decoded?.isStaff) {
             router.push('/transcripts');
           } else {
             router.push('/login');
@@ -26,7 +25,7 @@ export default function Home() {
           router.push('/login');
         }
       } catch (error) {
-        console.error(error);
+        console.error('Error during authorization check:', error);
         router.push('/login');
       }
     }
