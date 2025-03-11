@@ -62,7 +62,7 @@ export default function Transcripts() {
           <p className="text-gray-700"><strong className="text-gray-900">Mod ID:</strong> {ticket.modId}</p>
           <p className="text-gray-700"><strong className="text-gray-900">Channel ID:</strong> {ticket.channelId}</p>
           <p className="text-gray-700"><strong className="text-gray-900">Status:</strong> 
-            <span className={`ml-2 px-2 py-1 text-xs font-semibold rounded-full 
+            <span className={`ml-2 px-2 py-1 text-sm font-semibold rounded-full 
               ${ticket.status === 'closed' ? 'bg-red-500 text-white' : 'bg-green-500 text-white'}`}>
               {ticket.status}
             </span>
