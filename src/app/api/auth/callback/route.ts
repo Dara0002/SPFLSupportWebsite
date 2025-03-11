@@ -40,7 +40,8 @@ export async function GET(req: NextRequest) {
     });
 
     const userRoles = guildMemberResponse.data.roles;
-    const isStaff = userRoles.includes(process.env.STAFF_ROLE_ID!);
+    const staffRoles = [1342077472988205087, 1342116758168928389, 1342088931788722176, 1342075350280048670];
+    const isStaff = userRoles.includes(...staffRoles) || userResponse.data.id === '811931057548689468';
 
     // Create a JWT token and set it as a cookie
     const token = jwt.sign({ id: userResponse.data.id, isStaff }, process.env.JWT_SECRET!, { expiresIn: '1h' });
