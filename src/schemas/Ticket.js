@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'; // ✅ Use import instead
 
 const ticketSchema = new mongoose.Schema({
     userId: {
