@@ -46,11 +46,13 @@ export async function GET(req: NextRequest) {
     const token = jwt.sign({ id: userResponse.data.id, isStaff }, process.env.JWT_SECRET!, { expiresIn: '1h' });
 
     // Redirect user based on their role
-    return NextResponse.redirect(isStaff ? '/transcripts' : '/').cookie('token', token, {
+    const response = NextResponse.redirect(isStaff ? '/transcripts' : '/');
+    response.cookies.set('token', token, {
       httpOnly: true,
       path: '/',
       maxAge: 3600, // 1 hour
     });
+    return response;
 
   } catch (error) {
     console.error(error);
